@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+  <main>
+    <div id="box">
+      <div id="box2-wrapper">
+        <div id="box2">
+          <button onclick="startBeingAnnoying()">Start being annoying</button>
+          <button onclick="increment()">Increment</button>
+          <button onclick="getAPicture()">Get a picture</button>
+          <div id="counter-value"></div>
+          <div id="message"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="main.js"></script>
+  <script>
+    let counter = 0;
+    document.getElementById('counter-value').innerHTML  = counter;
+    function startBeingAnnoying() {
+      document.getElementById('message').innerHTML = 'Lets sum all the numbers from 0 to 1,000,000,000';
+      worker.postMessage({'cmd': 'beAnnoying', 'data': [1, 2, 3, 4]});
+    }
+    function increment() {
+      counter++;
+      document.getElementById('counter-value').innerHTML  = counter;
+    }
+    function getAPicture() {
+      fetch('thingthatdoesntexist').then(function(res) {
+        console.log(res);
+        document.getElementById('counter-value').innerHTML  = "<img src='" + res.url + "'>";
+      });
+    }
+    var worker = new Worker('ServiceWorker.js');
+    worker.addEventListener('message', function(e) {
+      document.getElementById('message').innerHTML = e.data;
+    }, false);
+    
+  </script>
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+<!--   <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+ -->
+</body>
+
+</html>
